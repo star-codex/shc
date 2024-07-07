@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--cpu', action='store_true', help="Check CPU usage")
     parser.add_argument('--memory', action='store_true', help="Check memory usage")
     parser.add_argument('--disk', action='store_true', help="Check disk usage")
-    parser.add_argument('--summary', action='store_true', help="Display summary report")
+    parser.add_argument('--summary', action='store_true', help="Display summary report & log to file")
     args = parser.parse_args()
 
     results = {}
