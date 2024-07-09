@@ -52,7 +52,7 @@ def main():
     parser.add_argument('--network', action='store_true', help="Check network usage")
     parser.add_argument('--temperature', action='store_true', help="Check system temperature")
     parser.add_argument('--summary', action='store_true', help="Display summary report & log to file")
-    parser.add_argument('--interval', type=int, help="Set interval (in seconds) for continuous monitoring")
+    parser.add_argument('--interval', type=int, help="Set interval in seconds for continuous monitoring")
     args = parser.parse_args()
 
     try:
