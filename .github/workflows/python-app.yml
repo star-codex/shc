@@ -42,11 +42,6 @@ jobs:
       run: |
         python -m unittest discover -s . -p "test_*.py"
 
-    #- name: Run linters and auto-fix
-    #  run: |
-    #    pip install flake8
-    #    flake8 --extend-ignore=E501 --ignore=E302,E305 --max-line-length=79 --jobs=1 --statistics --doctests --show-source main.py || true
-
     - name: Check code coverage
       run: |
         pip install coverage
