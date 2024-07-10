@@ -3,6 +3,7 @@ import argparse
 import logging
 import time
 from datetime import datetime
+import os
 
 def check_cpu():
     return psutil.cpu_percent(interval=1)
@@ -40,6 +41,7 @@ def log_summary(results):
     logging.info(summary)
 
 def display_results(results):
+    os.system('cls' if os.name == 'nt' else 'clear')  # Clear the terminal screen
     for key, value in results.items():
         print(f"{key}: {value}")
 
