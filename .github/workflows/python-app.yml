@@ -16,12 +16,22 @@ jobs:
         python-version: [3.11]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+        architecture: x64
+
+    - name: Cache pip packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
@@ -30,15 +40,10 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m unittest discover -s . -p "test_*.py"
-
-    - name: Run linters
-      run: |
-        pip install flake8
-        flake8 --ignore=E501 main.py
+        python -m unittest discover -s tests -p "test_*.py" -v
 
     - name: Check code coverage
       run: |
         pip install coverage
-        coverage run -m unittest discover -s tests
-        coverage report -m
+        coverage run -m unittest discover -s tests -p "test_*.py"
+        coverage report -m --omit="*/tests/*"

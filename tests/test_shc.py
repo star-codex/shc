@@ -10,15 +10,18 @@ class TestSystemHealthChecker(unittest.TestCase):
         mock_cpu_percent.return_value = 50
         self.assertEqual(check_cpu(), 50)
 
+
     @patch('main.psutil.virtual_memory')
     def test_check_memory(self, mock_virtual_memory):
         mock_virtual_memory.return_value.percent = 75
         self.assertEqual(check_memory(), 75)
 
+
     @patch('main.psutil.disk_usage')
     def test_check_disk(self, mock_disk_usage):
         mock_disk_usage.return_value.percent = 80
         self.assertEqual(check_disk(), 80)
+
 
     @patch('main.psutil.net_io_counters')
     def test_check_network(self, mock_net_io_counters):
@@ -26,12 +29,14 @@ class TestSystemHealthChecker(unittest.TestCase):
         mock_net_io_counters.return_value.bytes_recv = 2000
         self.assertEqual(check_network(), (1000, 2000))
 
+
     @patch('main.psutil.sensors_temperatures')
     def test_check_temperature(self, mock_sensors_temperatures):
         mock_sensors_temperatures.return_value = {'sensor1': [MagicMock(current=55)]}
         self.assertEqual(check_temperature(), {'sensor1': 55})
         mock_sensors_temperatures.return_value = {}
         self.assertIsNone(check_temperature())
+
 
     @patch('main.os.system')
     @patch('builtins.print')
@@ -56,6 +61,7 @@ class TestSystemHealthChecker(unittest.TestCase):
             unittest.mock.call('Temperature (sensor1): 55°C')
         ]
         mock_print.assert_has_calls(calls, any_order=False)
+
 
 if __name__ == '__main__':
     unittest.main()
