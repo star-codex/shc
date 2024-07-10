@@ -4,7 +4,7 @@
 
 The System Health Checker (SHC) is a Python CLI tool designed to monitor and report on various system resource metrics, including CPU usage, memory usage, disk usage, network usage, and system temperature. This tool provides both snapshot and real-time continuous monitoring capabilities.
 
-I created this to develop my skills with Python, employ test-driven-development, and assemble my own tools from scratch for greater understanding.
+I created this to develop my skills with Python, employ test-driven-development, work with automation, and assemble my own tools from scratch for greater understanding. I started small to learn each step thoroughly, and I have purposefully not looked at existing CLI tools of a similar nature so I can enjoy the experience of learning without comparison.
 
 ## Features
 
@@ -54,13 +54,15 @@ To continuously check CPU and memory usage every 5 seconds:
 python health_checker.py --cpu --memory --interval 5
 ```
 
-You can exit the real time monitoring with `CTRL+C`.
+You can use any interval of seconds that you like.
+
+Exit the real time monitoring with `CTRL+C`.
 
 ## Running Tests
 
 ### Prerequisites
 
-Make sure you have `unittest` and `unittest.mock` available in your Python environment.
+Make sure you have `unittest` and `unittest.mock` available in your Python environment. `mock` is required for Python 2.7 and 3.3 through 3.6, but from Python 3.7 onwards, it's part of `unittest.mock`.
 
 ### Test File
 
@@ -86,7 +88,7 @@ The SHC tool logs summary reports to `shc_report.log` in the current directory. 
 Install the required dependencies using `pip`:
 
 ```
-pip install psutil
+pip install -r requirements.txt
 ```
 
 ## Contributing
