@@ -31,3 +31,14 @@ jobs:
     - name: Run tests
       run: |
         python -m unittest discover -s . -p "test_*.py"
+
+    - name: Run linters
+      run: |
+        pip install flake8
+        flake8 --ignore=E501 main.py
+
+    - name: Check code coverage
+      run: |
+        pip install coverage
+        coverage run -m unittest discover -s tests
+        coverage report -m
