@@ -2,7 +2,6 @@ import psutil
 import argparse
 import logging
 import time
-from datetime import datetime
 import os
 
 def check_cpu():
