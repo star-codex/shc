@@ -40,10 +40,10 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m unittest discover -s . -p "test_*.py"
+        python -m unittest discover -s tests -p "test_*.py" -v
 
     - name: Check code coverage
       run: |
         pip install coverage
-        coverage run -m unittest discover -s . -p "test_*.py"
-        coverage report -m
+        coverage run -m unittest discover -s tests -p "test_*.py"
+        coverage report -m --omit="*/tests/*"
