@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
+from datetime import datetime, timedelta
 import os
-from main import check_cpu, check_memory, check_disk, check_network, check_temperature, display_results
+from main import check_cpu, check_memory, check_disk, check_network, check_temperature, display_results, get_system_uptime
 
 class TestSystemHealthChecker(unittest.TestCase):
 
@@ -61,6 +62,29 @@ class TestSystemHealthChecker(unittest.TestCase):
             unittest.mock.call('Temperature (sensor1): 55°C')
         ]
         mock_print.assert_has_calls(calls, any_order=False)
+
+
+    @patch('main.psutil.boot_time')
+    def test_get_system_uptime(self, mock_boot_time):
+        # Mock the boot time to a fixed point in the past
+        mock_boot_time.return_value = (datetime.now() - timedelta(hours=5)).timestamp()
+
+        # Calculate expected uptime
+        expected_uptime = timedelta(hours=5)
+
+        # Get actual uptime from the function
+        actual_uptime_str = get_system_uptime()
+
+        # Convert actual uptime string back to a timedelta object for comparison
+        actual_uptime_parts = actual_uptime_str.split(':')
+        actual_uptime = timedelta(
+            hours=int(actual_uptime_parts[0]),
+            minutes=int(actual_uptime_parts[1]),
+            seconds=int(actual_uptime_parts[2])
+        )
+
+        # Check if the actual uptime matches the expected uptime
+        self.assertEqual(expected_uptime, actual_uptime, "Uptime does not match the expected value")
 
 
 if __name__ == '__main__':
