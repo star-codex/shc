@@ -3,6 +3,7 @@ import argparse
 import logging
 import time
 import os
+from datetime import datetime
 
 def check_cpu():
     return psutil.cpu_percent(interval=1)
@@ -24,6 +25,13 @@ def check_temperature():
     if temperatures:
         return {sensor: temps[0].current for sensor, temps in temperatures.items()}
     return None
+
+def get_system_uptime():
+    boot_time_timestamp = psutil.boot_time()
+    boot_time = datetime.fromtimestamp(boot_time_timestamp)
+    now = datetime.now()
+    uptime = now - boot_time
+    return str(uptime).split('.')[0]  # Remove microseconds
 
 def setup_logging():
     logging.basicConfig(
@@ -52,6 +60,7 @@ def main():
     parser.add_argument('--disk', action='store_true', help="Check disk usage")
     parser.add_argument('--network', action='store_true', help="Check network usage")
     parser.add_argument('--temperature', action='store_true', help="Check system temperature")
+    parser.add_argument('--uptime', action='store_true', help="Check system uptime")
     parser.add_argument('--summary', action='store_true', help="Display summary report & log to file")
     parser.add_argument('--interval', type=int, help="Set interval in seconds for continuous monitoring")
     args = parser.parse_args()
@@ -77,6 +86,8 @@ def main():
                             results[f'Temperature ({sensor})'] = f"{temp}°C"
                     else:
                         results['Temperature'] = "Sensors not available."
+                if args.uptime:
+                    results['System Uptime'] = get_system_uptime()
 
                 display_results(results)
                 log_summary(results)
@@ -100,6 +111,8 @@ def main():
                         results[f'Temperature ({sensor})'] = f"{temp}°C"
                 else:
                     results['Temperature'] = "Sensors not available."
+            if args.uptime:
+                results['System Uptime'] = get_system_uptime()
 
             if args.summary:
                 display_results(results)
