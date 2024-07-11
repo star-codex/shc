@@ -1,4 +1,8 @@
-#!/bin/bash
+# navigate to root directory and activate virtual environment:
+# source venv/bin/activate
+# run the tests:
+# bash local_test_shc.sh
+
 
 # Install dependencies if needed
 pip install -r requirements.txt
